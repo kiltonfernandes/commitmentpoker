@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Planning Poker por compromisso e mediana." />
+  <title>Commitment Poker</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--paper:#f8f6f1;--card:#ffffff;--line:#e7e4dd;--navy:#172a46;--blue:#2477b8;--sun:#f4b740;--red:#bc4749;--green:#2f855a;--shadow:0 16px 42px rgba(23,32,51,.10)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);line-height:1.55}
+    .wrap{width:min(1120px,calc(100% - 40px));margin:auto}.hero{background:var(--navy);color:white;padding:26px 0 86px;overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:480px;height:480px;border:80px solid rgba(244,183,64,.15);border-radius:50%;right:-180px;top:-220px}
+    nav{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}.brand{font-weight:800;letter-spacing:-.03em;font-size:1.15rem}.brand span{color:var(--sun)}.pill{font-size:.82rem;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 12px}
+    .intro{max-width:760px;position:relative;z-index:1;padding-top:84px}.eyebrow{text-transform:uppercase;font-weight:750;letter-spacing:.13em;color:var(--sun);font-size:.78rem}.hero h1{font-size:clamp(2.7rem,7vw,5.7rem);line-height:.94;letter-spacing:-.065em;margin:16px 0 24px}.hero p{font-size:1.2rem;max-width:650px;color:#d8e2ef;margin:0}.jump{display:inline-flex;margin-top:30px;gap:9px;align-items:center;background:var(--sun);color:#172033;text-decoration:none;border-radius:9px;padding:12px 17px;font-weight:800}
+    main{margin-top:-38px;position:relative}.statement{box-shadow:var(--shadow);background:var(--card);padding:32px;border-radius:16px;display:grid;grid-template-columns:50px 1fr;gap:18px;align-items:start}.statement .quote{font-size:4rem;font-weight:800;color:var(--sun);line-height:.7}.statement h2{font-size:1.5rem;line-height:1.2;margin:0 0 10px;letter-spacing:-.035em}.statement p{margin:0;color:var(--muted)}
+    section{padding:78px 0}h2{font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.05em;line-height:1.05;margin:0 0 16px}.lead{color:var(--muted);font-size:1.07rem;max-width:710px;margin:0}.score-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:34px}.score{border:1px solid var(--line);background:var(--card);border-radius:13px;padding:16px 13px;min-height:220px;display:flex;flex-direction:column;transition:.18s}.score:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#cbd5e1}.num{font-size:2.2rem;font-weight:850;letter-spacing:-.07em}.score h3{font-size:.96rem;line-height:1.22;margin:13px 0 9px}.score p{font-size:.83rem;color:var(--muted);margin:0}.score[data-v="13"]{border-top:5px solid var(--sun)}.score[data-v="21"]{border-top:5px solid var(--red)}
+    .band{background:#e8f1f7}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:35px}.step{padding:22px;border-left:3px solid var(--blue);background:#fff}.step b{display:block;font-size:.8rem;color:var(--blue);letter-spacing:.08em;margin-bottom:8px}.step p{margin:0;font-size:.96rem}.rule{display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:center}.rule-panel{background:var(--navy);color:white;padding:30px;border-radius:15px}.rule-panel p{margin:0;color:#d8e2ef}.rule-panel strong{color:var(--sun)}.scale-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:22px}.mini{background:#fff;color:var(--navy);border-radius:7px;padding:6px 10px;font-weight:800}.arrow{opacity:.65}
+    .simulator{background:#fff;border:1px solid var(--line);border-radius:16px;padding:31px;box-shadow:var(--shadow);margin-top:34px}.simulator h3{font-size:1.35rem;margin:0 0 5px}.simulator p{color:var(--muted);margin:0 0 20px}.votes{display:flex;gap:9px;flex-wrap:wrap}.vote{border:1px solid #cbd5e1;background:#fff;color:var(--navy);width:46px;height:42px;border-radius:8px;font-weight:800;font-size:1rem;cursor:pointer}.vote.active{background:var(--blue);color:#fff;border-color:var(--blue)}.result{margin-top:22px;padding:18px;background:#f7fafc;border-radius:10px;font-weight:650}.result span{color:var(--blue)}
+    .critical{border-left:5px solid var(--red);background:#fff4f4;padding:22px 25px;border-radius:0 12px 12px 0;margin-top:30px}.critical h3{margin:0 0 7px}.critical p{margin:0;color:#613334}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:35px}.case{background:#fff;padding:24px;border-radius:13px;border:1px solid var(--line)}.case h3{margin:0 0 12px;font-size:1.15rem}.case p{margin:0;color:var(--muted)}.tag{display:inline-block;font-size:.75rem;font-weight:800;padding:4px 8px;border-radius:99px;background:#e8f1f7;color:var(--blue);margin-bottom:12px}
+    footer{padding:45px 0;background:var(--navy);color:#d8e2ef}footer strong{color:white}footer p{margin:7px 0 0;font-size:.92rem}
+    @media(max-width:900px){.score-grid{grid-template-columns:repeat(4,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.rule{grid-template-columns:1fr}}@media(max-width:580px){.wrap{width:min(100% - 28px,1120px)}.hero{padding-bottom:72px}.intro{padding-top:60px}.score-grid{grid-template-columns:repeat(2,1fr)}.score{min-height:175px}.two-col{grid-template-columns:1fr}.statement{padding:25px 21px}.simulator{padding:22px}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <nav><div class="brand">Commitment<span>Poker</span></div><div class="pill">Planning Poker por compromisso</div></nav>
+      <div class="intro">
+        <div class="eyebrow">Metodologia de estimativa</div>
+        <h1>Pontos que expressam um compromisso.</h1>
+        <p>Uma forma de estimar histórias considerando a entrega completa, a capacidade da sprint e as diferenças que merecem ser discutidas.</p>
+        <a class="jump" href="#escala">Ver a escala <span>↓</span></a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <article class="statement">
+        <div class="quote">“</div>
+        <div><h2>Cada carta é uma declaração que a pessoa precisa conseguir defender.</h2><p>Assim, a conversa sai do território do “parece complexo” e passa a examinar cenários, dependências, trabalho em paralelo e condições concretas para concluir a história até Done.</p></div>
+      </article>
+    </div>
+    <section id="escala">
+      <div class="wrap">
+        <div class="eyebrow">01 · A escala</div><h2>O que cada carta quer dizer</h2><p class="lead">A pontuação não é uma conversão direta de horas. Ela registra o tamanho do compromisso que o time assume para a sprint.</p>
+        <div class="score-grid">
+          <article class="score" data-v="1"><div class="num">1</div><h3>Em paralelo</h3><p>Consigo trabalhar nesta história junto com outra.</p></article>
+          <article class="score" data-v="2"><div class="num">2</div><h3>Há espaço para uma maior</h3><p>Entrego esta e ainda assumo uma história maior.</p></article>
+          <article class="score" data-v="3"><div class="num">3</div><h3>Cenários relevantes</h3><p>Sabemos implementar, mas existem vários cenários a tratar.</p></article>
+          <article class="score" data-v="5"><div class="num">5</div><h3>Há espaço para uma menor</h3><p>Entrego esta e ainda assumo uma história menor.</p></article>
+          <article class="score" data-v="8"><div class="num">8</div><h3>Sprint inteira</h3><p>Exige um profissional durante toda a sprint.</p></article>
+          <article class="score" data-v="13"><div class="num">13</div><h3>Dependência externa</h3><p>Exige a sprint inteira de alguém e trabalho de outro time.</p></article>
+          <article class="score" data-v="21"><div class="num">21</div><h3>Sem compromisso possível</h3><p>O time não consegue assumir a entrega nesta sprint.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="band">
+      <div class="wrap">
+        <div class="eyebrow">02 · A votação</div><h2>A história é uma só.</h2><p class="lead">Dev, QA e demais pessoas votam considerando a mesma entrega completa. Não se somam pontos de implementação e validação.</p>
+        <div class="steps">
+          <div class="step"><b>PASSO 1</b><p>Ler e esclarecer a história.</p></div><div class="step"><b>PASSO 2</b><p>Votar ao mesmo tempo.</p></div><div class="step"><b>PASSO 3</b><p>Ordenar os votos e localizar a mediana.</p></div><div class="step"><b>PASSO 4</b><p>Verificar divergências antes do fechamento.</p></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="wrap rule">
+        <div><div class="eyebrow">03 · A mediana</div><h2>Ela fecha apenas quando a conversa já está próxima.</h2><p class="lead">Com número par de votos, quando o centro ficar entre cartas, usa-se a carta imediatamente superior.</p></div>
+        <aside class="rule-panel"><p><strong>Exemplo:</strong> para votos 2, 3, 3, 5, 5, a mediana é <strong>3</strong>. Mas o resultado não fecha se existir uma diferença crítica entre os extremos.</p><div class="scale-line"><span class="mini">1</span><span class="arrow">→</span><span class="mini">2</span><span class="arrow">→</span><span class="mini">3</span><span class="arrow">→</span><span class="mini">5</span><span class="arrow">→</span><span class="mini">8</span></div></aside>
+      </div>
+      <div class="wrap">
+        <div class="simulator">
+          <h3>Experimento rápido</h3><p>Selecione votos para ver a aplicação da regra. Duas cartas ou mais de distância entre o menor e o maior voto exigem conversa e nova rodada.</p>
+          <div class="votes" id="votes"></div><div class="result" id="result">Selecione pelo menos dois votos.</div>
+        </div>
+        <div class="critical"><h3>Divergência crítica</h3><p>Uma carta adjacente pode ser absorvida pela mediana. Duas ou mais posições de distância exigem que as pessoas nos extremos expliquem suas condições antes da nova votação.</p></div>
+      </div>
+    </section>
+    <section class="band">
+      <div class="wrap">
+        <div class="eyebrow">04 · Proteção entre disciplinas</div><h2>Um resultado baixo não pode esconder a carga de QA.</h2><p class="lead">A mediana geral é só uma parte da leitura. Também se observa se Dev e QA estão percebendo a história de formas muito distantes.</p>
+        <div class="two-col">
+          <article class="case"><div class="tag">NÃO FECHA AUTOMATICAMENTE</div><h3>Dev: 1, 1, 1 · QA: 8, 8</h3><p>A mediana geral seria 1, mas QA está sinalizando validação para a sprint inteira. A condição precisa ser examinada antes do resultado.</p></article>
+          <article class="case"><div class="tag">PODE FECHAR</div><h3>Dev: 3, 3, 3 · QA: 5, 5</h3><p>As percepções ficam em cartas adjacentes. Se não houver uma condição que invalide a mensagem do 3, a mediana pode fechar.</p></article>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="wrap">
+        <div class="eyebrow">05 · Casos especiais</div><h2>13 e 21 pedem outro tipo de conversa.</h2>
+        <div class="two-col">
+          <article class="case"><h3>Quando alguém vota 13</h3><p>O time confirma duas coisas: dedicação integral de uma pessoa e trabalho necessário de outro time para concluir a história.</p></article>
+          <article class="case"><h3>Quando alguém vota 21</h3><p>O grupo discute por que não pode assumir a história na sprint e qual mudança de escopo, decomposição ou condição permitiria uma nova estimativa.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap"><strong>Commitment Poker</strong><p>Uma metodologia para estimativas mais claras, discutíveis e consistentes ao longo das sprints.</p></div></footer>
+  <script>
+    const values=[1,2,3,5,8],labels={1:"1",2:"2",3:"3",5:"5",8:"8"};
+    const chosen=[2,3,3,5,5],box=document.getElementById("votes"),out=document.getElementById("result");
+    function render(){box.innerHTML="";chosen.forEach((v,i)=>{const b=document.createElement("button");b.className="vote active";b.textContent=v;b.title="Clique para remover";b.onclick=()=>{chosen.splice(i,1);render()};box.appendChild(b)});values.forEach(v=>{const b=document.createElement("button");b.className="vote";b.textContent="+"+v;b.title="Adicionar voto "+v;b.onclick=()=>{chosen.push(v);render()};box.appendChild(b)});show()}
+    function show(){if(chosen.length<2){out.textContent="Selecione pelo menos dois votos.";return}const a=[...chosen].sort((x,y)=>x-y),mid=Math.floor(a.length/2),median=a.length%2?a[mid]:a[mid];const low=values.indexOf(a[0]),high=values.indexOf(a.at(-1)),critical=high-low>=2;out.innerHTML=critical?'<span>Discussão obrigatória.</span> Votos: '+a.join(" · ")+" — há "+(high-low)+" posições entre os extremos.":'<span>Mediana: '+labels[median]+'.</span> Votos: '+a.join(" · ")+" — não há divergência crítica."}
+    render();
+  </script>
+</body>
+</html>
