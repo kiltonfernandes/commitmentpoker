@@ -218,7 +218,11 @@ As perguntas servem como ponto de partida para a conversa do grupo; a plataforma
 
 ## Sigilo e revelação dos votos
 
-Enquanto a rodada está fechada, participantes veem apenas a quantidade de votos recebidos. O host vê o nome e a carta de cada pessoa, podendo conferir a participação antes de revelar. Ao selecionar **Reveal votes**, a carta de cada participante e o resultado do cartão passam a ficar visíveis para toda a sessão.
+Enquanto a rodada está fechada, cada participante vê somente a própria carta. O host vê o nome e a carta de cada pessoa, podendo conferir a participação antes de revelar. Ao selecionar **Reveal votes**, os votos individuais e o resultado do cartão passam a ficar visíveis para toda a sessão.
+
+## Demonstração guiada
+
+A tela inicial inclui o acesso discreto **Ver uma demonstração da metodologia**. Ele percorre seis telas explicando compromisso, perguntas rotativas, tratamento de 13 e 21, votos fechados, revelação e mediana.
 
 ## Estado atual e próxima camada técnica
 
