@@ -178,3 +178,45 @@ O conteúdo da metodologia aparece em `index.html`. Ao alterar regras, exemplos 
 A versão consolidada da metodologia está registrada no Notion:
 
 - [Metodologia de Planning Poker por Compromisso e Mediana](https://app.notion.com/p/3e5195bb0be8812199e8f42d963cceea?pvs=204)
+
+
+## Regras implementadas na plataforma
+
+A interface aplica as regras da metodologia durante a votação de cada cartão.
+
+1. A pessoa escolhe uma carta.
+2. Antes do voto ser registrado, abre-se uma confirmação de compromisso.
+3. A confirmação apresenta a mensagem específica daquela carta e pede uma condição concreta que sustente o número.
+4. O voto só é registrado após essa justificativa.
+5. Para 13, a pessoa precisa confirmar dedicação integral de uma pessoa na sprint e trabalho necessário de outro time.
+6. Para 21, a pessoa descreve a razão da inviabilidade e a mudança necessária para a história voltar a ser estimável.
+7. O resultado avalia os votos já recebidos:
+   - presença de 13 ou 21: discussão obrigatória;
+   - extremos separados por duas ou mais posições na escala regular: discussão obrigatória;
+   - diferença forte entre votos de Dev e QA: discussão obrigatória;
+   - sem essas condições: exibição da mediana provisória.
+
+A plataforma guarda a justificativa junto do voto, de modo que uma rodada posterior possa retomar a condição concreta apresentada pela pessoa que votou.
+
+## Fluxos disponíveis
+
+### Host session
+
+1. A pessoa informa nome e perspectiva principal.
+2. O sistema gera um código de seis caracteres.
+3. O código pode ser copiado para a área de transferência.
+4. Na sala, o host informa um item por linha.
+5. Cada linha gera um cartão independente, pronto para votação.
+
+### Join session
+
+1. A pessoa informa nome, código da sessão e perspectiva principal.
+2. Ela entra como participante.
+3. Cada cartão mostra as cartas 1, 2, 3, 5, 8, 13 e 21.
+4. A carta selecionada abre a confirmação de compromisso antes de registrar o voto.
+
+## Estado atual e próxima camada técnica
+
+A página está pronta para publicação como site estático na Vercel. O fluxo de telas, os cartões, a confirmação de voto e a aplicação das regras funcionam no navegador.
+
+A conexão de uma mesma sessão entre dispositivos ainda pede uma fonte de dados compartilhada. Uma implementação posterior pode usar Vercel KV, Postgres, Supabase ou outro serviço de persistência, com uma rota para criar sessões, outra para entrar e uma atualização em tempo real dos cartões e votos. As regras de validação já estão organizadas no navegador e podem ser movidas para essa camada de servidor para manter o mesmo comportamento para todo o time.
