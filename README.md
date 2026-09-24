@@ -186,17 +186,18 @@ A interface aplica as regras da metodologia durante a votação de cada cartão.
 
 1. A pessoa escolhe uma carta.
 2. Antes do voto ser registrado, abre-se uma confirmação de compromisso.
-3. A confirmação apresenta a mensagem específica daquela carta e pede uma condição concreta que sustente o número.
-4. O voto só é registrado após essa justificativa.
-5. Para 13, a pessoa precisa confirmar dedicação integral de uma pessoa na sprint e trabalho necessário de outro time.
-6. Para 21, a pessoa descreve a razão da inviabilidade e a mudança necessária para a história voltar a ser estimável.
-7. O resultado avalia os votos já recebidos:
+3. A confirmação apresenta uma pergunta diferente para estimular a conversa do time; existem 80 variações por carta antes de qualquer repetição.
+4. A pessoa confirma a carta após a conversa ou pode pular aquele item.
+5. Para 13, a pessoa confirma dedicação integral de uma pessoa na sprint e trabalho necessário de outro time.
+6. Para 21, a pessoa confirma que o grupo discutiu a inviabilidade e a condição para voltar a estimar a história.
+7. O host vê todos os votos recebidos, mas o grupo só os vê após o comando **Reveal votes**.
+8. O resultado avalia os votos já recebidos:
    - presença de 13 ou 21: discussão obrigatória;
    - extremos separados por duas ou mais posições na escala regular: discussão obrigatória;
    - diferença forte entre votos de Dev e QA: discussão obrigatória;
    - sem essas condições: exibição da mediana provisória.
 
-A plataforma guarda a justificativa junto do voto, de modo que uma rodada posterior possa retomar a condição concreta apresentada pela pessoa que votou.
+As perguntas servem como ponto de partida para a conversa do grupo; a plataforma registra a carta confirmada e as confirmações especiais de 13 e 21.
 
 ## Fluxos disponíveis
 
@@ -213,7 +214,11 @@ A plataforma guarda a justificativa junto do voto, de modo que uma rodada poster
 1. A pessoa informa nome, código da sessão e perspectiva principal.
 2. Ela entra como participante.
 3. Cada cartão mostra as cartas 1, 2, 3, 5, 8, 13 e 21.
-4. A carta selecionada abre a confirmação de compromisso antes de registrar o voto.
+4. A carta selecionada abre uma pergunta de compromisso antes da confirmação ou do salto do item.
+
+## Sigilo e revelação dos votos
+
+Enquanto a rodada está fechada, participantes veem apenas a quantidade de votos recebidos. O host vê o nome e a carta de cada pessoa, podendo conferir a participação antes de revelar. Ao selecionar **Reveal votes**, a carta de cada participante e o resultado do cartão passam a ficar visíveis para toda a sessão.
 
 ## Estado atual e próxima camada técnica
 
