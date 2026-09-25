@@ -233,7 +233,7 @@ A conexão de uma mesma sessão entre dispositivos ainda pede uma fonte de dados
 
 ## Versão atual
 
-**v0.1.1 — MVP testável com correção de inicialização e recuperação segura da sessão**
+**v0.1.2 — MVP testável com correção dos controles da tela inicial**
 
 Esta versão reúne os fluxos iniciais de host e participante, cartões por linha, perguntas rotativas de compromisso, voto opcional, privacidade antes da revelação, mediana, divergência crítica, demonstração guiada e persistência local no navegador.
 
