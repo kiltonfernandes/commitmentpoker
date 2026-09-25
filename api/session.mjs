@@ -157,7 +157,7 @@ export default async function handler(req, res) {
         const item = itemFor(state, body.itemId);
         if (action === 'remove') state.items = state.items.filter(i => i.id !== item.id);
         else if (action === 'assign') {
-          if (!item.confirmed) fail('Confirme a pontuação antes de atribuir Dev e QA.', 409);
+          if (!item.confirmed) fail('Confirme a pontuação antes de atribuir responsáveis.', 409);
           if (!['devId', 'qaId'].includes(body.slot)) fail('Função inválida.');
           const selected = body.memberId ? state.members.find(m => m.id === body.memberId) : null;
           const required = body.slot === 'devId' ? 'Dev' : 'QA';
