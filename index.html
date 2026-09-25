@@ -20,7 +20,7 @@
 <body>
 <header class="top"><div class="shell"><a class="brand" href="#" id="logo">Commitment<span>Poker</span></a></div></header>
 <main class="shell">
-<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.6.2</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
+<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.6.3</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
   <h2 id="handTitle">Conheça a mensagem de cada carta</h2>
   <p>Passe o mouse pela mão ou selecione uma carta.</p>
   <div class="card-hand" aria-label="Cartas de compromisso">
@@ -76,7 +76,7 @@ function nextQuestion(value){if(!questionPool[value]||!questionPool[value].lengt
 
 const storageKey = 'commitmentPokerIdentitiesV3';
 const tabKey = 'commitmentPokerCurrentV3';
-const app = { name: '', discipline: 'Outro', code: '', role: '', token: '', items: [], members: [], capacity: null, projectName: '', sprintName: '', pending: null };
+const app = { name: '', discipline: 'Outro', code: '', role: '', token: '', items: [], members: [], capacity: null, projectName: '', sprintName: '', pending: null, followScoreItemId: null, followScoreValue: 5 };
 let polling = null, busy = false;
 const el = id => document.getElementById(id);
 const screens = [...document.querySelectorAll('.screen')];
@@ -211,8 +211,9 @@ function divergenceHtml(item) {
     const divergent = vote.value === issue.low || vote.value === issue.high;
     return '<li class="' + (divergent ? 'divergent-vote' : '') + '"><b>' + escapeHtml(name) + '</b><span>' + (vote.skipped ? 'Pulou' : 'Carta ' + vote.value) + '</span><small>' + (vote.skipped ? 'Não entrou no cálculo' : escapeHtml(messages[vote.value])) + '</small></li>';
   }).join('') + '</ul>';
-  const choices = cards.map(value => '<option value="' + value + '">' + value + '</option>').join('');
-  const hostActions = app.role === 'host' ? '<div class="divergence-actions"><button class="new-round" data-new-round="' + item.id + '">Votar novamente</button><button class="follow-score" data-follow-score="' + item.id + '">Seguir com pontuação</button><div class="follow-score-panel" id="follow-' + item.id + '" hidden><label>Escolha a pontuação <select data-score-choice="' + item.id + '">' + choices + '</select></label><button class="primary" data-confirm-override="' + item.id + '">Confirmar pontuação</button></div></div>' : '';
+  const scorePanelOpen = app.followScoreItemId === item.id;
+  const choices = cards.map(value => '<option value="' + value + '"' + (app.followScoreValue === value ? ' selected' : '') + '>' + value + '</option>').join('');
+  const hostActions = app.role === 'host' ? '<div class="divergence-actions"><button type="button" class="new-round" data-new-round="' + item.id + '">Votar novamente</button><button type="button" class="follow-score" data-follow-score="' + item.id + '" aria-expanded="' + scorePanelOpen + '">Seguir com pontuação</button><div class="follow-score-panel" id="follow-' + item.id + '"' + (scorePanelOpen ? '' : ' hidden') + '><label>Escolha a pontuação <select data-score-choice="' + item.id + '">' + choices + '</select></label><button type="button" class="primary" data-confirm-override="' + item.id + '">Confirmar pontuação</button></div></div>' : '';
   return '<aside class="divergence"><h4>Há um problema de divergência nesta história.</h4><p><b>User story:</b> ' + escapeHtml(item.text) + '</p><p class="divergence-note">Todos os votos estão abaixo. Os destaques em vermelho representam os extremos que interromperam a rodada.</p>' + votes + hostActions + '</aside>';
 }
 function resultText(item) {
@@ -262,8 +263,17 @@ function render() {
   document.querySelectorAll('[data-skip]').forEach(b => b.onclick = () => change('skip', { itemId: b.dataset.skip }));
   document.querySelectorAll('[data-reveal]').forEach(b => b.onclick = () => change('reveal', { itemId: b.dataset.reveal }));
   document.querySelectorAll('[data-confirm-score]').forEach(b => b.onclick = () => change('confirmScore', { itemId: b.dataset.confirmScore }));
-  document.querySelectorAll('[data-follow-score]').forEach(b => b.onclick = () => { const panel = el('follow-' + b.dataset.followScore); panel.hidden = !panel.hidden; });
-  document.querySelectorAll('[data-confirm-override]').forEach(b => b.onclick = () => { const choice = document.querySelector('[data-score-choice="' + b.dataset.confirmOverride + '"]'); change('confirmScore', { itemId: b.dataset.confirmOverride, points: Number(choice.value) }); });
+  document.querySelectorAll('[data-follow-score]').forEach(b => b.onclick = event => {
+    event.preventDefault();
+    app.followScoreItemId = app.followScoreItemId === b.dataset.followScore ? null : b.dataset.followScore;
+    app.followScoreValue = 5;
+    render();
+  });
+  document.querySelectorAll('[data-score-choice]').forEach(select => select.onchange = () => { app.followScoreValue = Number(select.value); });
+  document.querySelectorAll('[data-confirm-override]').forEach(b => b.onclick = () => {
+    const choice = document.querySelector('[data-score-choice="' + b.dataset.confirmOverride + '"]');
+    change('confirmScore', { itemId: b.dataset.confirmOverride, points: Number(choice?.value || app.followScoreValue) });
+  });
   document.querySelectorAll('[data-new-round]').forEach(b => b.onclick = () => change('newRound', { itemId: b.dataset.newRound }));
   document.querySelectorAll('[data-delete]').forEach(b => b.onclick = () => { if (confirm('Remover este cartão e seus votos?')) change('remove', { itemId: b.dataset.delete }); });
   document.querySelectorAll('[data-assign]').forEach(select => select.onchange = () => change('assign', { itemId: select.dataset.story, slot: select.dataset.assign, memberId: select.value || null }));
@@ -320,7 +330,11 @@ function renderCapacity() {
   document.querySelectorAll('[data-assign]').forEach(select => select.onchange = async () => { if (await change('assign', { itemId: select.dataset.story, slot: select.dataset.assign, memberId: select.value || null })) renderCapacity(); else renderCapacity(); });
 }
 async function change(action, args = {}) {
-  try { const response = await request(action, args); applySession(response.session); status('Sessão sincronizada'); return true; }
+  try {
+    const response = await request(action, args);
+    if (action === 'confirmScore' || action === 'newRound') app.followScoreItemId = null;
+    applySession(response.session); status('Sessão sincronizada'); return true;
+  }
   catch (error) { status(error.message, true); alert(error.message); return false; }
 }
 document.querySelectorAll('[data-home-card]').forEach(card => card.onclick = () => {
@@ -491,6 +505,5 @@ el('confirmVote').onclick = async () => {
   finally { button.disabled = false; }
 };
 renderSavedSessions();
-
 </script>
 </body></html>
