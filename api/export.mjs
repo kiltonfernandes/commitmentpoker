@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       content.push(title((index + 1) + '. ' + item.text));
       content.push(p('Criada em: ' + date(item.createdAt)));
       content.push(p('Dev: ' + memberName(data, item.assignment?.devId) + ' | QA: ' + memberName(data, item.assignment?.qaId)));
-      content.push(p('Decisão atual: ' + result.status + (result.points === null ? ' · pontos pendentes' : ' · ' + result.points + ' pontos')));
+      content.push(p('Decisão atual: ' + result.status + (result.points === null ? ' · pontos pendentes' : ' · ' + result.points + ' pontos') + ' · confirmação do host: ' + (item.confirmed ? 'sim em ' + date(item.confirmedAt) : 'não')));
       content.push(p('Revelada: ' + (item.revealed ? 'sim' : 'não') + ' | Divergência: ' + (item.locked ? 'sim' : 'não') + ' | Revelação em: ' + date(item.revealedAt)));
       (item.rounds || []).forEach(round => {
         content.push(title('Rodada ' + round.number, HeadingLevel.HEADING_3));

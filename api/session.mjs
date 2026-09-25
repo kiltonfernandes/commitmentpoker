@@ -66,10 +66,10 @@ export function resultFor(item) {
   if (item.locked || divergence(item)) return { status: 'Divergência crítica', points: null };
   if (votes.some(v => v.value === 13 || v.value === 21)) return { status: 'Discussão obrigatória para carta 13 ou 21', points: null };
   const sorted = votes.map(v => v.value).sort((a, b) => a - b);
-  return { status: 'Mediana revelada', points: sorted[Math.floor(sorted.length / 2)] };
+  return { status: 'Mediana', points: sorted[Math.floor(sorted.length / 2)] };
 }
 function capacityFor(data, member) {
-  const stories = data.items.filter(item => item.assignment?.devId === member.id || item.assignment?.qaId === member.id).map(item => ({
+  const stories = data.items.filter(item => item.confirmed && (item.assignment?.devId === member.id || item.assignment?.qaId === member.id)).map(item => ({
     itemId: item.id, text: item.text, role: item.assignment?.devId === member.id ? 'Dev' : 'QA',
     points: resultFor(item).points, status: resultFor(item).status
   }));
@@ -95,7 +95,7 @@ function view(data, member) {
         const vote = item.votes[m.id];
         if (vote && (visible || m.id === member.id)) votes[m.name] = vote;
       }
-      return { id: item.id, text: item.text, revealed: item.revealed, locked: item.locked, votes,
+      return { id: item.id, text: item.text, revealed: item.revealed, locked: item.locked, confirmed: !!item.confirmed, confirmedAt: item.confirmedAt || null, votes,
         assignment: member.role === 'host' ? (item.assignment || { devId: null, qaId: null }) : undefined,
         points: visible ? resultFor(item).points : null };
     })
@@ -140,11 +140,11 @@ export default async function handler(req, res) {
       return res.status(200).json({ session: view(data, authorized(data, token)) });
     }
     const { data } = await update(key, state => {
-      const member = authorized(state, token, ['add', 'remove', 'reveal', 'newRound', 'delete', 'assign', 'metadata'].includes(action));
+      const member = authorized(state, token, ['add', 'remove', 'reveal', 'newRound', 'confirmScore', 'delete', 'assign', 'metadata'].includes(action));
       if (action === 'add') {
         const texts = body.texts;
         if (!Array.isArray(texts) || !texts.length || texts.length > 100 || state.items.length + texts.length > 300) fail('Informe entre 1 e 100 itens, respeitando o limite de 300 por sessão.');
-        for (const text of texts) { const trimmed = String(text || '').trim(); if (!trimmed || trimmed.length > 500) fail('Cada item deve ter de 1 a 500 caracteres.'); state.items.push({ id: uid(), text: trimmed, votes: {}, revealed: false, locked: false, assignment: { devId: null, qaId: null }, rounds: [], createdAt: new Date().toISOString() }); }
+        for (const text of texts) { const trimmed = String(text || '').trim(); if (!trimmed || trimmed.length > 500) fail('Cada item deve ter de 1 a 500 caracteres.'); state.items.push({ id: uid(), text: trimmed, votes: {}, revealed: false, locked: false, confirmed: false, assignment: { devId: null, qaId: null }, rounds: [], createdAt: new Date().toISOString() }); }
       } else if (action === 'metadata') {
         const projectName = String(body.projectName || '').trim(), sprintName = String(body.sprintName || '').trim();
         if (projectName.length > 120 || sprintName.length > 120) fail('Nomes do projeto e da sprint devem ter até 120 caracteres.');
@@ -156,6 +156,7 @@ export default async function handler(req, res) {
         const item = itemFor(state, body.itemId);
         if (action === 'remove') state.items = state.items.filter(i => i.id !== item.id);
         else if (action === 'assign') {
+          if (!item.confirmed) fail('Confirme a pontuação antes de atribuir Dev e QA.', 409);
           if (!['devId', 'qaId'].includes(body.slot)) fail('Função inválida.');
           const selected = body.memberId ? state.members.find(m => m.id === body.memberId) : null;
           const required = body.slot === 'devId' ? 'Dev' : 'QA';
@@ -163,13 +164,20 @@ export default async function handler(req, res) {
           item.assignment ||= { devId: null, qaId: null };
           item.assignment[body.slot] = selected?.id || null;
         }
-        else if (action === 'reveal') { if (!Object.values(item.votes).some(v => v.value !== null)) fail('Aguarde pelo menos um voto.'); item.revealed = true; item.revealedAt = new Date().toISOString(); }
+        else if (action === 'reveal') { if (item.confirmed) fail('Esta história já está pontuada.', 409); if (!Object.values(item.votes).some(v => v.value !== null)) fail('Aguarde pelo menos um voto.'); item.revealed = true; item.revealedAt = new Date().toISOString(); }
+        else if (action === 'confirmScore') {
+          if (item.confirmed) fail('Esta história já está pontuada.', 409);
+          const result = resultFor(item);
+          if (result.points === null) fail('Esta rodada ainda não possui uma mediana válida para confirmar.', 409);
+          item.confirmed = true;
+          item.confirmedAt = new Date().toISOString();
+        }
         else if (action === 'newRound') {
           if (Object.keys(item.votes || {}).length) {
             item.rounds ||= [];
-            item.rounds.push({ number: item.rounds.length + 1, votes: item.votes, revealed: item.revealed, locked: item.locked, startedAt: item.startedAt || item.createdAt || null, endedAt: new Date().toISOString() });
+            item.rounds.push({ number: item.rounds.length + 1, votes: item.votes, revealed: item.revealed, locked: item.locked, confirmed: !!item.confirmed, startedAt: item.startedAt || item.createdAt || null, endedAt: new Date().toISOString() });
           }
-          item.votes = {}; item.revealed = false; item.locked = false; item.revealedAt = null; item.startedAt = new Date().toISOString();
+          item.votes = {}; item.revealed = false; item.locked = false; item.confirmed = false; item.confirmedAt = null; item.revealedAt = null; item.startedAt = new Date().toISOString();
         }
         else if (action === 'skip') {
           if (member.role !== 'participant') fail('O host conduz a sessão e não participa da votação.', 403);
