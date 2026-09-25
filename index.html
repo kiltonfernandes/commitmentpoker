@@ -16,7 +16,7 @@
 <body>
 <header class="top"><div class="shell"><a class="brand" href="#" id="logo">Commitment<span>Poker</span></a></div></header>
 <main class="shell">
-<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.2.0</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
+<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.3.0</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
   <h2 id="handTitle">Conheça a mensagem de cada carta</h2>
   <p>Passe o mouse pela mão ou selecione uma carta.</p>
   <div class="card-hand" aria-label="Cartas de compromisso">
@@ -49,7 +49,7 @@
 <section class="screen" id="hostName"><div class="panel"><button class="back" data-go="home">← Voltar</button><h1>Quem está hospedando?</h1><p>Seu nome aparecerá para os participantes como a pessoa que conduz a sessão.</p><label for="hostInput">Seu nome</label><input id="hostInput" autocomplete="name" placeholder="Ex.: Kilton Fernandes"><label for="hostDiscipline" style="margin-top:18px">Sua perspectiva principal</label><select id="hostDiscipline"><option value="Outro">Produto, design ou outra</option><option value="Dev">Desenvolvimento</option><option value="QA">QA</option></select><div class="error" id="hostError"></div><button class="primary" id="createSession">Create session</button></div></section>
 <section class="screen" id="hostCode"><div class="panel"><button class="back" data-go="hostName">← Alterar nome</button><h1>Sua sessão está pronta.</h1><p>Envie este código aos participantes. Eles o usarão em <b>Join session</b> para entrar na sala.</p><div class="code-box"><span>Código da sessão</span><div class="session-code" id="newCode">—</div><button class="copy" id="copyCode">Copy to clipboard</button></div><button class="primary" id="goRoom">Continue to session</button></div></section>
 <section class="screen" id="joinForm"><div class="panel"><button class="back" data-go="home">← Voltar</button><h1>Entrar em uma sessão</h1><p>Informe seu nome e cole o código enviado pela pessoa que hospeda a sessão.</p><label for="joinName">Seu nome</label><input id="joinName" autocomplete="name" placeholder="Ex.: Ana Silva"><label for="joinCode" style="margin-top:18px">Código da sessão</label><input id="joinCode" autocapitalize="characters" placeholder="Ex.: 7K3M9P" maxlength="6"><label for="joinDiscipline" style="margin-top:18px">Sua perspectiva principal</label><select id="joinDiscipline"><option value="Outro">Produto, design ou outra</option><option value="Dev">Desenvolvimento</option><option value="QA">QA</option></select><div class="error" id="joinError"></div><button class="primary" id="joinSession">Join session</button></div></section>
-<section class="screen" id="room"><div class="room-head"><div><div class="eyebrow" id="roleLabel">Sessão do host</div><h1>Itens da planning</h1><p id="welcome">Organize os itens que o grupo irá votar.</p></div><div class="session-chip"><small>Código da sessão</small><b id="roomCode">—</b><button class="copy" id="copyRoomCode">Copy to clipboard</button><button class="delete-session" id="deleteSession">Delete session</button></div></div><div class="workspace"><aside class="add-panel" id="addPanel"><h2>Adicionar itens</h2><p>Cole ou digite um item por linha. Cada linha se torna um cartão disponível para votação.</p><label for="itemsInput" style="margin-top:20px">Itens da sessão</label><textarea id="itemsInput" placeholder="SFDEV-4213 — Ajustar regra de aprovação&#10;SFDEV-4116 — Exibir status do catálogo"></textarea><button class="primary" id="addItems">Create cards</button><div class="item-count" id="itemCount">Nenhum cartão criado.</div></aside><section class="board"><div class="board-title"><h2>Cartões para votação</h2><span class="board-intro">Selecione uma carta para votar.</span></div><div class="cards" id="cards"><div class="empty">Os cartões criados aparecerão aqui.</div></div><div class="note">Antes de registrar um número, a plataforma pede uma justificativa de compromisso. Os votos 13 e 21 passam por verificações obrigatórias.</div></section></div></section>
+<section class="screen" id="room"><div class="room-head"><div><div class="eyebrow" id="roleLabel">Sessão do host</div><h1>Itens da planning</h1><p id="welcome">Organize os itens que o grupo irá votar.</p><p id="connectionStatus" role="status" aria-live="polite">Conectando...</p></div><div class="session-chip"><small>Código da sessão</small><b id="roomCode">—</b><button class="copy" id="copyRoomCode">Copy to clipboard</button><button class="delete-session" id="deleteSession">Delete session</button></div></div><div class="workspace"><aside class="add-panel" id="addPanel"><h2>Adicionar itens</h2><p>Cole ou digite um item por linha. Cada linha se torna um cartão disponível para votação.</p><label for="itemsInput" style="margin-top:20px">Itens da sessão</label><textarea id="itemsInput" placeholder="SFDEV-4213 — Ajustar regra de aprovação&#10;SFDEV-4116 — Exibir status do catálogo"></textarea><button class="primary" id="addItems">Create cards</button><div class="item-count" id="itemCount">Nenhum cartão criado.</div></aside><section class="board"><div class="board-title"><h2>Cartões para votação</h2><span class="board-intro">Selecione uma carta para votar.</span></div><div class="cards" id="cards"><div class="empty">Os cartões criados aparecerão aqui.</div></div><div class="note">Antes de registrar uma carta, a plataforma faz uma pergunta de compromisso. Votos 13 e 21 passam por verificações obrigatórias.</div></section></div></section>
 </main>
 <div class="modal-wrap" id="modalWrap" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close" id="closeModal" aria-label="Fechar">×</button><h2 id="modalTitle">Confirmar compromisso</h2><p id="modalItem"></p><div class="commitment"><b>Carta <span id="modalValue">—</span></b><p id="modalMessage"></p></div><div class="commitment"><b>Pergunta para o time</b><p id="voteQuestion"></p></div><p id="confirmStatement" style="margin:0;color:var(--ink);font-weight:750"></p><div class="special" id="for13"><h3>Verificação obrigatória para 13</h3><label class="check"><input type="checkbox" id="fullSprint">Existe dedicação integral de uma pessoa durante a sprint.</label><label class="check"><input type="checkbox" id="otherTeam">Existe trabalho necessário de outro time para concluir a história.</label></div><div class="special" id="for21"><h3>Verificação obrigatória para 21</h3><label class="check"><input type="checkbox" id="discussed21">O grupo discutiu a inviabilidade da sprint e o que precisaria mudar para voltar a estimar a história.</label></div><div class="error" id="voteError"></div><button class="text-button" id="skipVote" style="margin-top:20px">Quero rever a carta</button><button class="primary" id="confirmVote" style="margin-left:14px">Sim, é isso mesmo</button></section></div>
 <script>
@@ -78,33 +78,223 @@ const questionPool={};
 function shuffled(list){const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function nextQuestion(value){if(!questionPool[value]||!questionPool[value].length){questionPool[value]=shuffled(questionFrames.flatMap(frame=>questionTopics[value].map(topic=>frame.replaceAll("{value}",value).replaceAll("{topic}",topic))))}return questionPool[value].pop()}
 
-const storageKey="commitmentPokerSessionV1";
-const app={name:"",discipline:"Outro",code:"",role:"host",items:[],pending:null};
-function loadSaved(){try{const raw=localStorage.getItem(storageKey);return raw?JSON.parse(raw):null}catch(error){localStorage.removeItem(storageKey);return null}}
-function persist(){if(app.code)localStorage.setItem(storageKey,JSON.stringify({name:app.name,discipline:app.discipline,code:app.code,role:app.role,items:app.items}))}
-const screens=[...document.querySelectorAll(".screen")];
-function show(id){screens.forEach(s=>s.classList.toggle("active",s.id===id));window.scrollTo(0,0)}
-function makeCode(){return Array.from({length:6},()=> "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*32)]).join("")}
-function copy(value,button){navigator.clipboard?.writeText(value).then(()=>{const old=button.textContent;button.textContent="Copied";button.classList.add("copied");setTimeout(()=>{button.textContent=old;button.classList.remove("copied")},1500)}).catch(()=>prompt("Copie o código:",value))}
-function escapeHtml(value){return value.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
-function openRoom(){document.getElementById("roomCode").textContent=app.code;const host=app.role==="host";document.getElementById("roleLabel").textContent=host?"Sessão do host":"Sessão de participante";document.getElementById("welcome").textContent=host?app.name+", adicione os itens que o grupo irá votar.":app.name+", você entrou como participante. Escolha uma carta para cada item.";document.getElementById("addPanel").style.display=host?"block":"none";document.getElementById("deleteSession").style.display=host?"block":"none";show("room");render()}
-function criticalDivergence(item){const entries=Object.entries(item.votes||{}).filter(([,v])=>regular.includes(v.value));if(entries.length<2)return null;const values=entries.map(([,v])=>v.value),low=Math.min(...values),high=Math.max(...values),distance=regular.indexOf(high)-regular.indexOf(low);if(distance<2)return null;return {low,high,distance,entries:entries.filter(([,v])=>v.value===low||v.value===high)}}
-function divergenceHtml(item){const issue=criticalDivergence(item);if(!issue)return "";return '<aside class="divergence"><h4>Há um problema de divergência nesta história.</h4><p><b>User story:</b> '+escapeHtml(item.text)+'</p><ul>'+issue.entries.map(([name,v])=>"<li><b>"+escapeHtml(name)+"</b> diz: "+messages[v.value]+"</li>").join("")+"</ul>"+(app.role==="host"?'<button class="new-round" data-new-round="'+app.items.indexOf(item)+'">Iniciar nova rodada</button>':"")+"</aside>"}
-function resultText(item){const votes=Object.values(item.votes||{}).map(v=>v.value);if(!votes.length)return {type:"",text:"Aguardando votos."};if(item.locked)return {type:"warn",text:"Votação interrompida: a história apresentou divergência crítica."};if(votes.some(v=>v===13||v===21))return {type:"warn",text:"Discussão obrigatória: há voto 13 ou 21, que exige verificação antes do fechamento."};if(votes.length<2)return {type:"",text:"Voto registrado. Aguardando os demais participantes."};const sorted=[...votes].sort((a,b)=>a-b),distance=regular.indexOf(sorted.at(-1))-regular.indexOf(sorted[0]),allVotes=Object.values(item.votes||{}),dev=allVotes.filter(v=>v.discipline==="Dev").map(v=>v.value),qa=allVotes.filter(v=>v.discipline==="QA").map(v=>v.value);if(dev.length&&qa.length&&Math.abs(regular.indexOf(Math.max(...dev))-regular.indexOf(Math.min(...qa)))>=2)return {type:"warn",text:"Discussão obrigatória: Dev e QA estão sinalizando uma diferença forte entre suas perspectivas."};if(distance>=2)return {type:"warn",text:"Discussão obrigatória: os extremos têm distância de "+distance+" posições na escala."};const median=sorted.length%2?sorted[Math.floor(sorted.length/2)]:sorted[sorted.length/2];return {type:"good",text:"Mediana provisória: "+median+". Não há divergência crítica entre os votos atuais."}}
-function voteDetails(item){const entries=Object.entries(item.votes||{});if(!entries.length)return "";if(app.role==="host")return '<div class="private-votes"><b>Votos recebidos — visíveis apenas para o host</b><ul>'+entries.map(([name,v])=>"<li>"+escapeHtml(name)+": "+v.value+"</li>").join("")+"</ul></div>";if(!item.revealed){const mine=item.votes?.[app.name]?.value;return '<div class="sealed">'+(mine?"Seu voto: <b>"+mine+"</b>. Aguardando o host revelar.":"Você ainda pode votar ou pular este item.")+"</div>"};return '<div class="private-votes"><b>Votos revelados</b><ul>'+entries.map(([name,v])=>"<li>"+escapeHtml(name)+": "+v.value+"</li>").join("")+"</ul></div>"}
-function render(){const target=document.getElementById("cards"),count=document.getElementById("itemCount");count.textContent=app.items.length?app.items.length+" cartão"+(app.items.length>1?"ões":"")+" criado"+(app.items.length>1?"s":"")+".":"Nenhum cartão criado.";if(!app.items.length){target.innerHTML='<div class="empty">Os cartões criados aparecerão aqui.</div>';return}target.innerHTML=app.items.map((item,index)=>{const mine=item.votes?.[app.name]?.value,r=resultText(item),canSeeResult=app.role==="host"||item.revealed,voteCount=Object.keys(item.votes||{}).length;return '<article class="item-card"><h3>'+escapeHtml(item.text)+'</h3><div class="vote-row"><span>Sua carta:</span>'+cards.map(v=>'<button class="vote '+(mine===v?"selected":"")+'" data-item="'+index+'" data-vote="'+v+'" '+(item.locked?"disabled":"")+'>'+v+'</button>').join("")+(app.role==="host"?'<button class="reveal" data-reveal="'+index+'" '+(!voteCount||item.revealed?"disabled":"")+'>'+(item.revealed?"Votos revelados":"Reveal votes")+'</button><button class="delete" data-delete="'+index+'">Remover</button>':'')+'</div>'+voteDetails(item)+(canSeeResult?'<div class="result '+r.type+'">'+r.text+'</div>'+divergenceHtml(item):'')+'</article>'}).join("");document.querySelectorAll("[data-vote]").forEach(b=>b.onclick=()=>openVote(+b.dataset.item,+b.dataset.vote));document.querySelectorAll("[data-reveal]").forEach(b=>b.onclick=()=>{app.items[+b.dataset.reveal].revealed=true;persist();render()});document.querySelectorAll("[data-new-round]").forEach(b=>b.onclick=()=>{const item=app.items[+b.dataset.newRound];item.votes={};item.revealed=false;item.locked=false;persist();render()});document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>{app.items.splice(+b.dataset.delete,1);persist();render()})}
-function openVote(itemIndex,value){app.pending={itemIndex,value};document.getElementById("modalValue").textContent=value;document.getElementById("modalMessage").textContent=messages[value];document.getElementById("confirmStatement").textContent="Você está dizendo: “"+messages[value]+"”. É isso mesmo?";document.getElementById("voteQuestion").textContent=nextQuestion(value);document.getElementById("modalItem").textContent=app.items[itemIndex].text;const old=app.items[itemIndex].votes?.[app.name];document.getElementById("fullSprint").checked=!!old?.fullSprint;document.getElementById("otherTeam").checked=!!old?.otherTeam;document.getElementById("discussed21").checked=!!old?.discussed21;document.getElementById("for13").classList.toggle("show",value===13);document.getElementById("for21").classList.toggle("show",value===21);document.getElementById("voteError").textContent="";document.getElementById("modalWrap").classList.add("open")}
-function closeModal(){document.getElementById("modalWrap").classList.remove("open");app.pending=null}
+
 const demoSteps=[{title:"Uma carta é um compromisso",text:"A votação começa quando cada pessoa considera a história inteira até Done. O número escolhido precisa corresponder a uma condição que ela consegue sustentar.",visual:"Exemplo: carta 5 — consigo concluir esta história e ainda assumir uma menor na sprint."},{title:"O time conversa antes de confirmar",text:"Ao escolher uma carta, cada pessoa recebe uma pergunta diferente. A pergunta orienta uma conversa objetiva, sem exigir justificativa escrita.",visual:"A pergunta muda em cada voto e só volta depois que as 80 opções daquela carta forem usadas."},{title:"13 e 21 têm verificações próprias",text:"Essas cartas levam o grupo a parar antes do registro. A intenção é deixar explícito o risco que impede um fechamento estatístico simples.",visual:"13 confirma dedicação integral e dependência de outro time. 21 confirma que o grupo discutiu a inviabilidade e o que precisaria mudar."},{title:"Os votos ficam fechados",text:"Cada participante confirma uma carta ou pula aquele item. Enquanto a rodada está em curso, cada participante vê apenas a própria carta.",visual:"O host vê quem votou e qual carta foi escolhida para poder conduzir a rodada. Participantes veem somente a própria carta."},{title:"O host decide quando revelar",text:"Quando estiver pronto, o host usa Reveal votes. A partir daí, todos veem as cartas submetidas e o resultado daquele cartão.",visual:"A revelação cria uma conversa baseada nas diferenças reais do grupo."},{title:"A mediana fecha apenas votações próximas",text:"Se os extremos estiverem separados por duas ou mais posições, o sistema pede discussão e nova rodada. A mesma proteção vale para diferenças fortes entre Dev e QA.",visual:"Sem divergência crítica, a mediana aparece como resultado provisório. Votos 13 e 21 sempre pedem discussão específica."}];let demoIndex=0;function renderDemo(){const step=demoSteps[demoIndex];document.getElementById("demoStep").textContent="Demonstração · "+(demoIndex+1)+" de "+demoSteps.length;document.getElementById("demoTitle").textContent=step.title;document.getElementById("demoText").textContent=step.text;document.getElementById("demoVisual").textContent=step.visual;document.getElementById("previousDemo").style.visibility=demoIndex?"visible":"hidden";document.getElementById("nextDemo").textContent=demoIndex===demoSteps.length-1?"Concluir demonstração":"Próximo →"}
 document.getElementById("startDemo").onclick=()=>{demoIndex=0;renderDemo();show("demo")};document.getElementById("previousDemo").onclick=()=>{if(demoIndex){demoIndex--;renderDemo()}};document.getElementById("nextDemo").onclick=()=>{if(demoIndex===demoSteps.length-1){show("home")}else{demoIndex++;renderDemo()}};
-document.querySelectorAll("[data-home-card]").forEach(card=>card.onclick=()=>{document.querySelectorAll("[data-home-card]").forEach(item=>{item.classList.remove("active");item.setAttribute("aria-pressed","false")});card.classList.add("active");card.setAttribute("aria-pressed","true");const value=card.dataset.homeCard;document.getElementById("homeMeaningValue").textContent=value;document.getElementById("homeMeaningText").textContent=messages[value]});
-document.getElementById("hostChoice").onclick=()=>show("hostName");document.getElementById("joinChoice").onclick=()=>show("joinForm");document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));document.getElementById("logo").onclick=e=>{e.preventDefault();show("home")};
-document.getElementById("createSession").onclick=()=>{const name=document.getElementById("hostInput").value.trim(),error=document.getElementById("hostError");if(!name){error.textContent="Informe seu nome para criar a sessão.";return}app.name=name;app.discipline=document.getElementById("hostDiscipline").value;app.code=makeCode();app.role="host";app.items=[];persist();document.getElementById("newCode").textContent=app.code;show("hostCode")};
-document.getElementById("copyCode").onclick=function(){copy(app.code,this)};document.getElementById("goRoom").onclick=openRoom;document.getElementById("copyRoomCode").onclick=function(){copy(app.code,this)};
-document.getElementById("joinSession").onclick=()=>{const name=document.getElementById("joinName").value.trim(),entered=document.getElementById("joinCode").value.trim().toUpperCase(),error=document.getElementById("joinError"),saved=loadSaved();if(!name||!entered){error.textContent="Informe seu nome e o código da sessão.";return}if(!saved||saved.code!==entered){error.textContent="Nesta versão, a sessão precisa ter sido aberta neste mesmo navegador.";return}app.name=name;app.discipline=document.getElementById("joinDiscipline").value;app.code=entered;app.role="participant";app.items=saved.items||[];persist();error.textContent="";openRoom()};
-document.getElementById("addItems").onclick=()=>{const input=document.getElementById("itemsInput"),lines=input.value.split("\n").map(v=>v.trim()).filter(Boolean);if(!lines.length)return;app.items.push(...lines.map(text=>({text,votes:{},revealed:false})));input.value="";persist();render()};
-document.getElementById("closeModal").onclick=closeModal;document.getElementById("skipVote").onclick=closeModal;document.getElementById("deleteSession").onclick=()=>{if(confirm("Excluir esta sessão e todos os cartões salvos neste navegador?")){localStorage.removeItem(storageKey);Object.assign(app,{name:"",discipline:"Outro",code:"",role:"host",items:[],pending:null});show("home")}};document.getElementById("modalWrap").onclick=e=>{if(e.target.id==="modalWrap")closeModal()};
-const savedSession=loadSaved();if(savedSession?.code){Object.assign(app,savedSession);openRoom()}
-document.getElementById("confirmVote").onclick=() =>{const p=app.pending,fullSprint=document.getElementById("fullSprint").checked,otherTeam=document.getElementById("otherTeam").checked,discussed21=document.getElementById("discussed21").checked,error=document.getElementById("voteError");if(p.value===13&&(!fullSprint||!otherTeam)){error.textContent="Para votar 13, confirme as duas condições obrigatórias.";return}if(p.value===21&&!discussed21){error.textContent="Confirme que o grupo discutiu a inviabilidade e a condição para voltar a estimar.";return}app.items[p.itemIndex].votes[app.name]={value:p.value,fullSprint,otherTeam,discussed21,discipline:app.discipline};const issue=criticalDivergence(app.items[p.itemIndex]);if(issue){app.items[p.itemIndex].locked=true;app.items[p.itemIndex].revealed=true}persist();closeModal();render()};
+
+const storageKey = 'commitmentPokerIdentitiesV3';
+const tabKey = 'commitmentPokerCurrentV3';
+const app = { name: '', discipline: 'Outro', code: '', role: '', token: '', items: [], pending: null };
+let polling = null, busy = false;
+const el = id => document.getElementById(id);
+const screens = [...document.querySelectorAll('.screen')];
+function show(id) { screens.forEach(s => s.classList.toggle('active', s.id === id)); window.scrollTo(0, 0); }
+function identities() { try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch { return []; } }
+function saveIdentity() {
+  const entries = identities().filter(x => !(x.code === app.code && x.token === app.token));
+  entries.push({ code: app.code, token: app.token, role: app.role, name: app.name });
+  localStorage.setItem(storageKey, JSON.stringify(entries));
+  sessionStorage.setItem(tabKey, JSON.stringify({ code: app.code, token: app.token }));
+}
+function removeIdentity() {
+  localStorage.setItem(storageKey, JSON.stringify(identities().filter(x => x.code !== app.code)));
+  sessionStorage.removeItem(tabKey);
+}
+function applySession(session, token) {
+  if (token) app.token = token;
+  app.code = session.code;
+  app.name = session.name;
+  app.discipline = session.discipline;
+  app.role = session.role;
+  app.items = session.items;
+  if (el('room').classList.contains('active')) render();
+}
+async function request(action, args = {}, token = app.token, code = app.code) {
+  let response;
+  try {
+    response = await fetch('/api/session', { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, code, token, ...args }) });
+  } catch { throw new Error('Sem conexão com o servidor. Verifique sua internet e tente novamente.'); }
+  let result;
+  try { result = await response.json(); } catch { throw new Error('O servidor de sessões ainda não respondeu corretamente.'); }
+  if (!response.ok) throw new Error(result.error || 'Não foi possível concluir a operação.');
+  return result;
+}
+function status(text, problem = false) {
+  const node = el('connectionStatus');
+  node.textContent = text;
+  node.style.color = problem ? '#b42318' : '#18794e';
+}
+async function refresh() {
+  if (busy || !app.token || !el('room').classList.contains('active')) return;
+  busy = true;
+  try {
+    const data = await request('state');
+    applySession(data.session);
+    status('Sessão sincronizada');
+  } catch (error) {
+    status(error.message, true);
+    if (/não encontrada|encerrada pelo host|não autorizado/i.test(error.message)) { clearInterval(polling); removeIdentity(); }
+  } finally { busy = false; }
+}
+function openRoom() {
+  el('roomCode').textContent = app.code;
+  const host = app.role === 'host';
+  el('roleLabel').textContent = host ? 'Sessão do host' : 'Sessão de participante';
+  el('welcome').textContent = host ? app.name + ', adicione os itens que o grupo irá votar.' : app.name + ', escolha uma carta para cada item.';
+  el('addPanel').style.display = host ? 'block' : 'none';
+  el('deleteSession').style.display = host ? 'block' : 'none';
+  show('room');
+  render();
+  clearInterval(polling);
+  polling = setInterval(refresh, 2500);
+  refresh();
+}
+function copy(value, button) {
+  navigator.clipboard?.writeText(value).then(() => {
+    const old = button.textContent;
+    button.textContent = 'Copied'; button.classList.add('copied');
+    setTimeout(() => { button.textContent = old; button.classList.remove('copied'); }, 1500);
+  }).catch(() => prompt('Copie o código:', value));
+}
+function escapeHtml(value) { return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[c]); }
+function criticalDivergence(item) {
+  const entries = Object.entries(item.votes || {}).filter(([, v]) => regular.includes(v.value));
+  if (entries.length < 2) return null;
+  const values = entries.map(([, v]) => v.value), low = Math.min(...values), high = Math.max(...values);
+  const distance = regular.indexOf(high) - regular.indexOf(low);
+  return distance < 2 ? null : { low, high, distance, entries: entries.filter(([, v]) => v.value === low || v.value === high) };
+}
+function divergenceHtml(item) {
+  const issue = criticalDivergence(item);
+  if (!issue) return '';
+  return '<aside class="divergence"><h4>Há um problema de divergência nesta história.</h4><p><b>User story:</b> ' + escapeHtml(item.text) + '</p><ul>' + issue.entries.map(([name, vote]) => '<li><b>' + escapeHtml(name) + '</b> diz: ' + escapeHtml(messages[vote.value]) + '</li>').join('') + '</ul>' + (app.role === 'host' ? '<button class="new-round" data-new-round="' + item.id + '">Iniciar nova rodada</button>' : '') + '</aside>';
+}
+function resultText(item) {
+  const allVotes = Object.values(item.votes || {}).filter(v => v.value !== null);
+  const votes = allVotes.map(v => v.value);
+  if (!votes.length) return { type: '', text: 'Aguardando votos.' };
+  if (item.locked) return { type: 'warn', text: 'Votação interrompida: a história apresentou divergência crítica.' };
+  if (votes.some(v => v === 13 || v === 21)) return { type: 'warn', text: 'Discussão obrigatória: há voto 13 ou 21.' };
+  if (votes.length < 2) return { type: '', text: 'Voto registrado. Aguardando os demais participantes.' };
+  const sorted = [...votes].sort((a, b) => a - b);
+  const dev = allVotes.filter(v => v.discipline === 'Dev').map(v => v.value);
+  const qa = allVotes.filter(v => v.discipline === 'QA').map(v => v.value);
+  if (dev.length && qa.length && Math.abs(regular.indexOf(Math.max(...dev)) - regular.indexOf(Math.min(...qa))) >= 2) return { type: 'warn', text: 'Discussão obrigatória: Dev e QA sinalizam uma diferença forte.' };
+  const distance = regular.indexOf(sorted.at(-1)) - regular.indexOf(sorted[0]);
+  if (distance >= 2) return { type: 'warn', text: 'Discussão obrigatória: extremos separados por ' + distance + ' posições.' };
+  const median = sorted[Math.floor(sorted.length / 2)];
+  return { type: 'good', text: 'Mediana provisória: ' + median + '. Não há divergência crítica.' };
+}
+function voteDetails(item) {
+  const entries = Object.entries(item.votes || {});
+  const own = item.votes?.[app.name];
+  if (app.role !== 'host' && !item.revealed) return '<div class="sealed">' + (own ? (own.skipped ? 'Você pulou este item. Pode escolher uma carta enquanto a rodada estiver aberta.' : 'Seu voto: <b>' + own.value + '</b>. Aguardando o host revelar.') : 'Você ainda pode votar ou pular este item.') + '</div>';
+  if (!entries.length) return '';
+  const title = app.role === 'host' && !item.revealed ? 'Votos recebidos, visíveis apenas para o host' : 'Votos revelados';
+  return '<div class="private-votes"><b>' + title + '</b><ul>' + entries.map(([name, vote]) => '<li>' + escapeHtml(name) + ': ' + (vote.skipped ? 'Pulou' : vote.value) + '</li>').join('') + '</ul></div>';
+}
+function render() {
+  el('itemCount').textContent = app.items.length ? app.items.length + ' cartão' + (app.items.length > 1 ? 'ões' : '') + ' criado' + (app.items.length > 1 ? 's' : '') + '.' : 'Nenhum cartão criado.';
+  if (!app.items.length) { el('cards').innerHTML = '<div class="empty">Os cartões criados aparecerão aqui.</div>'; return; }
+  el('cards').innerHTML = app.items.map(item => {
+    const own = item.votes?.[app.name];
+    const result = resultText(item), visible = app.role === 'host' || item.revealed;
+    const voteCount = Object.values(item.votes || {}).filter(v => v.value !== null).length;
+    return '<article class="item-card"><h3>' + escapeHtml(item.text) + '</h3><div class="vote-row"><span>Sua carta:</span>' + cards.map(value => '<button class="vote ' + (own?.value === value ? 'selected' : '') + '" data-item="' + item.id + '" data-vote="' + value + '" ' + (item.locked || item.revealed ? 'disabled' : '') + '>' + value + '</button>').join('') + (!item.locked && !item.revealed ? '<button class="text-button" data-skip="' + item.id + '" style="font-size:.78rem">Pular voto</button>' : '') + (app.role === 'host' ? '<button class="reveal" data-reveal="' + item.id + '" ' + (!voteCount || item.revealed ? 'disabled' : '') + '>' + (item.revealed ? 'Votos revelados' : 'Reveal votes') + '</button><button class="delete" data-delete="' + item.id + '">Remover</button>' : '') + '</div>' + voteDetails(item) + (visible ? '<div class="result ' + result.type + '">' + result.text + '</div>' + divergenceHtml(item) : '') + '</article>';
+  }).join('');
+  document.querySelectorAll('[data-vote]').forEach(b => b.onclick = () => openVote(b.dataset.item, Number(b.dataset.vote)));
+  document.querySelectorAll('[data-skip]').forEach(b => b.onclick = () => change('skip', { itemId: b.dataset.skip }));
+  document.querySelectorAll('[data-reveal]').forEach(b => b.onclick = () => change('reveal', { itemId: b.dataset.reveal }));
+  document.querySelectorAll('[data-new-round]').forEach(b => b.onclick = () => change('newRound', { itemId: b.dataset.newRound }));
+  document.querySelectorAll('[data-delete]').forEach(b => b.onclick = () => { if (confirm('Remover este cartão e seus votos?')) change('remove', { itemId: b.dataset.delete }); });
+}
+function openVote(itemId, value) {
+  const item = app.items.find(i => i.id === itemId);
+  if (!item || item.locked || item.revealed) return;
+  app.pending = { itemId, value };
+  el('modalValue').textContent = value;
+  el('modalMessage').textContent = messages[value];
+  el('confirmStatement').textContent = 'Você está dizendo: “' + messages[value] + '”. É isso mesmo?';
+  el('voteQuestion').textContent = nextQuestion(value);
+  el('modalItem').textContent = item.text;
+  const old = item.votes?.[app.name];
+  el('fullSprint').checked = !!old?.fullSprint;
+  el('otherTeam').checked = !!old?.otherTeam;
+  el('discussed21').checked = !!old?.discussed21;
+  el('for13').classList.toggle('show', value === 13);
+  el('for21').classList.toggle('show', value === 21);
+  el('voteError').textContent = '';
+  el('modalWrap').classList.add('open');
+  el('modalWrap').setAttribute('aria-hidden', 'false');
+}
+function closeModal() { el('modalWrap').classList.remove('open'); el('modalWrap').setAttribute('aria-hidden', 'true'); app.pending = null; }
+async function change(action, args = {}) {
+  try { const response = await request(action, args); applySession(response.session); status('Sessão sincronizada'); return true; }
+  catch (error) { status(error.message, true); alert(error.message); return false; }
+}
+document.querySelectorAll('[data-home-card]').forEach(card => card.onclick = () => {
+  document.querySelectorAll('[data-home-card]').forEach(node => { node.classList.remove('active'); node.setAttribute('aria-pressed', 'false'); });
+  card.classList.add('active'); card.setAttribute('aria-pressed', 'true');
+  el('homeMeaningValue').textContent = card.dataset.homeCard;
+  el('homeMeaningText').textContent = messages[card.dataset.homeCard];
+});
+document.getElementById('hostChoice').onclick = () => show('hostName');
+document.getElementById('joinChoice').onclick = () => show('joinForm');
+document.querySelectorAll('[data-go]').forEach(button => button.onclick = () => show(button.dataset.go));
+el('logo').onclick = event => { event.preventDefault(); show('home'); };
+el('createSession').onclick = async () => {
+  const name = el('hostInput').value.trim(), error = el('hostError'), button = el('createSession');
+  if (!name) { error.textContent = 'Informe seu nome para criar a sessão.'; return; }
+  error.textContent = ''; button.disabled = true;
+  try {
+    const response = await request('create', { name, discipline: el('hostDiscipline').value }, '', '');
+    applySession(response.session, response.token); saveIdentity();
+    el('newCode').textContent = app.code; show('hostCode');
+  } catch (cause) { error.textContent = cause.message; }
+  finally { button.disabled = false; }
+};
+el('copyCode').onclick = function () { copy(app.code, this); };
+el('copyRoomCode').onclick = function () { copy(app.code, this); };
+el('goRoom').onclick = openRoom;
+el('joinSession').onclick = async () => {
+  const name = el('joinName').value.trim(), code = el('joinCode').value.trim().toUpperCase(), error = el('joinError'), button = el('joinSession');
+  if (!name || !code) { error.textContent = 'Informe seu nome e o código da sessão.'; return; }
+  error.textContent = ''; button.disabled = true;
+  try {
+    const response = await request('join', { name, code, discipline: el('joinDiscipline').value }, '', code);
+    applySession(response.session, response.token); saveIdentity(); openRoom();
+  } catch (cause) { error.textContent = cause.message; }
+  finally { button.disabled = false; }
+};
+el('addItems').onclick = async () => {
+  const input = el('itemsInput'), texts = input.value.split('\n').map(s => s.trim()).filter(Boolean);
+  if (texts.length && await change('add', { texts })) input.value = '';
+};
+el('closeModal').onclick = closeModal;
+el('skipVote').onclick = closeModal;
+el('modalWrap').onclick = event => { if (event.target === el('modalWrap')) closeModal(); };
+el('deleteSession').onclick = async () => {
+  if (!confirm('Excluir definitivamente esta sessão, os cartões e todos os votos?')) return;
+  try { await request('delete'); removeIdentity(); clearInterval(polling); Object.assign(app, { name: '', code: '', token: '', items: [], role: '' }); show('home'); }
+  catch (error) { alert(error.message); }
+};
+el('confirmVote').onclick = async () => {
+  const pending = app.pending, error = el('voteError'), button = el('confirmVote');
+  if (!pending) return;
+  const fullSprint = el('fullSprint').checked, otherTeam = el('otherTeam').checked, discussed21 = el('discussed21').checked;
+  if (pending.value === 13 && (!fullSprint || !otherTeam)) { error.textContent = 'Para votar 13, confirme as duas condições obrigatórias.'; return; }
+  if (pending.value === 21 && !discussed21) { error.textContent = 'Confirme a condição obrigatória da carta 21.'; return; }
+  button.disabled = true;
+  try {
+    const response = await request('vote', { itemId: pending.itemId, value: pending.value, fullSprint, otherTeam, discussed21 });
+    closeModal(); applySession(response.session); status('Voto registrado');
+  } catch (cause) { error.textContent = cause.message; }
+  finally { button.disabled = false; }
+};
+try {
+  const pointer = JSON.parse(sessionStorage.getItem(tabKey) || 'null') || identities().at(-1);
+  if (pointer?.code && pointer?.token) { app.code = pointer.code; app.token = pointer.token; request('state').then(response => { applySession(response.session); saveIdentity(); openRoom(); }).catch(() => { sessionStorage.removeItem(tabKey); }); }
+} catch { sessionStorage.removeItem(tabKey); }
+
 </script>
 </body></html>
