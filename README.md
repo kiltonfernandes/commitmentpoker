@@ -233,7 +233,7 @@ A conexão de uma mesma sessão entre dispositivos ainda pede uma fonte de dados
 
 ## Versão atual
 
-**v0.1.2 — MVP testável com correção dos controles da tela inicial**
+**v0.2.0 — MVP testável com mão interativa de cartas na tela inicial**
 
 Esta versão reúne os fluxos iniciais de host e participante, cartões por linha, perguntas rotativas de compromisso, voto opcional, privacidade antes da revelação, mediana, divergência crítica, demonstração guiada e persistência local no navegador.
 
@@ -242,3 +242,10 @@ O versionamento segue esta regra:
 - 0.x.0: novo conjunto relevante de funcionalidades durante a fase inicial.
 - 0.0.x: correção ou ajuste pequeno.
 - x.0.0: mudança incompatível depois que o produto estiver estável.
+
+
+### v0.2.0
+
+- Mão visual com as cartas 1, 2, 3, 5, 8, 13 e 21.
+- Movimento de elevação e destaque ao passar o mouse.
+- Seleção por clique com apresentação imediata da mensagem de compromisso.
