@@ -16,7 +16,7 @@
 <body>
 <header class="top"><div class="shell"><a class="brand" href="#" id="logo">Commitment<span>Poker</span></a></div></header>
 <main class="shell">
-<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.3.0</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
+<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.3.1</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
   <h2 id="handTitle">Conheça a mensagem de cada carta</h2>
   <p>Passe o mouse pela mão ou selecione uma carta.</p>
   <div class="card-hand" aria-label="Cartas de compromisso">
@@ -175,7 +175,7 @@ function resultText(item) {
   if (!votes.length) return { type: '', text: 'Aguardando votos.' };
   if (item.locked) return { type: 'warn', text: 'Votação interrompida: a história apresentou divergência crítica.' };
   if (votes.some(v => v === 13 || v === 21)) return { type: 'warn', text: 'Discussão obrigatória: há voto 13 ou 21.' };
-  if (votes.length < 2) return { type: '', text: 'Voto registrado. Aguardando os demais participantes.' };
+  if (votes.length < 2 && !item.revealed) return { type: '', text: 'Voto registrado. Aguardando os demais participantes.' };
   const sorted = [...votes].sort((a, b) => a - b);
   const dev = allVotes.filter(v => v.discipline === 'Dev').map(v => v.value);
   const qa = allVotes.filter(v => v.discipline === 'QA').map(v => v.value);
