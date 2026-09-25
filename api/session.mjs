@@ -60,6 +60,7 @@ function divergence(item) {
   return regular.indexOf(Math.max(...votes)) - regular.indexOf(Math.min(...votes)) >= 2;
 }
 export function resultFor(item) {
+  if (item.confirmed && values.includes(item.confirmedPoints)) return { status: 'Pontuação confirmada pelo host', points: item.confirmedPoints };
   const votes = Object.values(item.votes || {}).filter(v => values.includes(v.value));
   if (!votes.length) return { status: 'Aguardando votos', points: null };
   if (!item.revealed) return { status: 'Votação fechada', points: null };
@@ -95,7 +96,7 @@ function view(data, member) {
         const vote = item.votes[m.id];
         if (vote && (visible || m.id === member.id)) votes[m.name] = vote;
       }
-      return { id: item.id, text: item.text, revealed: item.revealed, locked: item.locked, confirmed: !!item.confirmed, confirmedAt: item.confirmedAt || null, votes,
+      return { id: item.id, text: item.text, revealed: item.revealed, locked: item.locked, confirmed: !!item.confirmed, confirmedAt: item.confirmedAt || null, confirmedPoints: item.confirmedPoints ?? null, votes,
         assignment: member.role === 'host' ? (item.assignment || { devId: null, qaId: null }) : undefined,
         points: visible ? resultFor(item).points : null };
     })
@@ -144,7 +145,7 @@ export default async function handler(req, res) {
       if (action === 'add') {
         const texts = body.texts;
         if (!Array.isArray(texts) || !texts.length || texts.length > 100 || state.items.length + texts.length > 300) fail('Informe entre 1 e 100 itens, respeitando o limite de 300 por sessão.');
-        for (const text of texts) { const trimmed = String(text || '').trim(); if (!trimmed || trimmed.length > 500) fail('Cada item deve ter de 1 a 500 caracteres.'); state.items.push({ id: uid(), text: trimmed, votes: {}, revealed: false, locked: false, confirmed: false, assignment: { devId: null, qaId: null }, rounds: [], createdAt: new Date().toISOString() }); }
+        for (const text of texts) { const trimmed = String(text || '').trim(); if (!trimmed || trimmed.length > 500) fail('Cada item deve ter de 1 a 500 caracteres.'); state.items.push({ id: uid(), text: trimmed, votes: {}, revealed: false, locked: false, confirmed: false, confirmedPoints: null, assignment: { devId: null, qaId: null }, rounds: [], createdAt: new Date().toISOString() }); }
       } else if (action === 'metadata') {
         const projectName = String(body.projectName || '').trim(), sprintName = String(body.sprintName || '').trim();
         if (projectName.length > 120 || sprintName.length > 120) fail('Nomes do projeto e da sprint devem ter até 120 caracteres.');
@@ -167,9 +168,13 @@ export default async function handler(req, res) {
         else if (action === 'reveal') { if (item.confirmed) fail('Esta história já está pontuada.', 409); if (!Object.values(item.votes).some(v => v.value !== null)) fail('Aguarde pelo menos um voto.'); item.revealed = true; item.revealedAt = new Date().toISOString(); }
         else if (action === 'confirmScore') {
           if (item.confirmed) fail('Esta história já está pontuada.', 409);
+          const selectedPoints = body.points === undefined || body.points === null ? null : Number(body.points);
           const result = resultFor(item);
-          if (result.points === null) fail('Esta rodada ainda não possui uma mediana válida para confirmar.', 409);
+          if (selectedPoints !== null && !item.revealed) fail('Revele os votos antes de seguir com uma pontuação.', 409);
+          if (selectedPoints !== null && !values.includes(selectedPoints)) fail('Escolha uma carta válida.', 400);
+          if (selectedPoints === null && result.points === null) fail('Esta rodada ainda não possui uma mediana válida para confirmar.', 409);
           item.confirmed = true;
+          item.confirmedPoints = selectedPoints ?? result.points;
           item.confirmedAt = new Date().toISOString();
         }
         else if (action === 'newRound') {
@@ -177,7 +182,7 @@ export default async function handler(req, res) {
             item.rounds ||= [];
             item.rounds.push({ number: item.rounds.length + 1, votes: item.votes, revealed: item.revealed, locked: item.locked, confirmed: !!item.confirmed, startedAt: item.startedAt || item.createdAt || null, endedAt: new Date().toISOString() });
           }
-          item.votes = {}; item.revealed = false; item.locked = false; item.confirmed = false; item.confirmedAt = null; item.revealedAt = null; item.startedAt = new Date().toISOString();
+          item.votes = {}; item.revealed = false; item.locked = false; item.confirmed = false; item.confirmedPoints = null; item.confirmedAt = null; item.revealedAt = null; item.startedAt = new Date().toISOString();
         }
         else if (action === 'skip') {
           if (member.role !== 'participant') fail('O host conduz a sessão e não participa da votação.', 403);
