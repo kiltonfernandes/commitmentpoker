@@ -2,7 +2,7 @@
 
 Aplicação de Planning Poker por compromisso e mediana. O host cria uma sessão, compartilha um código de seis caracteres e inclui histórias, uma por linha. Pessoas em outros navegadores entram com nome e código, votam, pulam um cartão ou reveem a carta antes de confirmar. A sessão fica no Upstash Redis sem prazo de expiração configurado, até o host excluí-la.
 
-**Versão: v0.5.3**
+**Versão: v0.5.4**
 
 [Abrir a aplicação](https://commitmentpoker.vercel.app/) · [Ler a metodologia original](https://app.notion.com/p/3e5195bb0be8812199e8f42d963cceea?pvs=204)
 
@@ -93,6 +93,7 @@ O servidor valida permissões para cada ação e remove votos de outras pessoas 
 
 ## Histórico
 
+- **v0.5.4:** modal reduzido à pergunta estática de confirmação, sem o box visual da carta.
 - **v0.5.3:** modal de voto simplificado com mensagem estática da carta e confirmação, sem pergunta aleatória para o time.
 - **v0.5.2:** toast legível para a mensagem da carta e correção do layout do modal de confirmação.
 - **v0.5.1:** home como tela inicial, retomada manual de sessões salvas, mocks com nomes brasileiros determinísticos, mão de cartas para participantes, host sem voto e correção do modal de confirmação.
