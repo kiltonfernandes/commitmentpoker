@@ -2,7 +2,7 @@
 
 Aplicação de Planning Poker por compromisso e mediana. O host cria uma sessão, compartilha um código de seis caracteres e inclui histórias, uma por linha. Pessoas em outros navegadores entram com nome e código, votam, pulam um cartão ou reveem a carta antes de confirmar. A sessão fica no Upstash Redis sem prazo de expiração configurado, até o host excluí-la.
 
-**Versão: v0.4.0**
+**Versão: v0.5.0**
 
 [Abrir a aplicação](https://commitmentpoker.vercel.app/) · [Ler a metodologia original](https://app.notion.com/p/3e5195bb0be8812199e8f42d963cceea?pvs=204)
 
@@ -35,17 +35,29 @@ Na sala do host, **Gerar nova demanda** cria imediatamente um cartão pronto par
 
 **Add mock participant** cria na sessão um participante de teste chamado `Tutor de pet (mock) 1`, depois `2`, `3` e assim por diante. Ao criar, a tela passa para a visão desse participante. O seletor **Alternar visão** permite voltar ao host ou assumir qualquer participante mock criado naquele navegador. Cada mock vota, pula e vê resultados com as mesmas permissões de um participante comum; o host pode revelar as cartas. Os mocks são membros da sessão compartilhada e seus votos aparecem aos demais após a revelação. A identidade de cada um fica salva no navegador em que foi criada. A sessão aceita até 1000 membros por limite técnico.
 
+## Capacidade, responsáveis e exportação
+
+Um resumo da capacidade de **todas as pessoas** fica visível na sala durante toda a sessão, para host e participantes. O botão **Capacidade** abre os detalhes de todos, inclusive as histórias atribuídas. O host configura o nome do projeto e da sprint, e associa um **Dev** e um **QA** a cada história. As opções exibem as pessoas que entraram com a perspectiva correspondente. A associação pode ser alterada ou removida apenas pelo host. Participantes consultam os dados da equipe, sem controles de edição.
+
+A referência é sempre **8 pontos por participante**. A mediana válida e revelada de uma história soma integralmente à capacidade do Dev e à do QA atribuídos. Votos ainda fechados, histórias sem votos, com divergência crítica ou com carta 13/21 pendente de discussão não somam pontos. Atribuições acima de 8 são permitidas e geram um alerta para a pessoa afetada na sala e no painel, além de sinalização para o host.
+
+O botão **Exportar DOCX**, visível ao host, cria um relatório Word com projeto, sprint, código, datas, participantes, perspectivas, capacidade individual, histórias, responsáveis, decisão, pontuação, votos por participante e verificações das cartas 13 e 21. O arquivo inclui rodadas atuais e anteriores preservadas a partir desta versão. O fuso das datas exportadas é o de Brasília. O relatório não inclui tokens de acesso. Discussões verbais não são registradas; cartões removidos e rodadas encerradas antes desta versão não podem ser reconstruídos.
+
+A página inicial mantém a mão de cartas interativa. O botão de demonstração foi removido.
+
 ## Estrutura
 
 ```text
 index.html             Interface, estilos, cartas e perguntas
 api/session.mjs        API de sessão na Vercel, com Upstash Redis
+api/export.mjs         Geração de relatório DOCX acessível apenas ao host
+package.json           Dependência docx e versão do projeto
 test/session.test.js   Teste da API e das regras de sigilo
 vercel.json            Configuração HTTP para a Vercel
 README.md              Documentação
 ```
 
-Sem framework, build ou dependências npm. A Vercel entrega `index.html` e executa `api/session.mjs` como função Node.js. O servidor guarda os tokens de acesso e conversa com o Redis; o navegador chama apenas `/api/session`.
+Sem framework nem build. A Vercel instala a dependência `docx`, entrega `index.html` e executa as funções em `api/`. O servidor guarda os tokens de acesso e conversa com o Redis; o navegador chama `/api/session` e, para o host, `/api/export`.
 
 ## Configurar na Vercel
 
@@ -79,6 +91,7 @@ O servidor valida permissões para cada ação e remove votos de outras pessoas 
 
 ## Histórico
 
+- **v0.5.0:** painel de capacidade com Dev e QA por história, alertas acima de 8, projeto e sprint, exportação DOCX e retirada da demonstração inicial.
 - **v0.4.0:** geração de demandas fictícias sobre car sharing para pets e participantes mock controláveis pelo host.
 - **v0.3.2:** a área de votação do participante usa a largura disponível em telas grandes.
 - **v0.3.1:** exibição da mediana também quando uma rodada com um único voto é revelada.
