@@ -2,7 +2,7 @@
 
 Aplicação de Planning Poker por compromisso e mediana. O host cria uma sessão, compartilha um código de seis caracteres e inclui histórias, uma por linha. Pessoas em outros navegadores entram com nome e código, votam, pulam um cartão ou reveem a carta antes de confirmar. A sessão fica no Upstash Redis sem prazo de expiração configurado, até o host excluí-la.
 
-**Versão: v0.6.0**
+**Versão: v0.6.1**
 
 [Abrir a aplicação](https://commitmentpoker.vercel.app/) · [Ler a metodologia original](https://app.notion.com/p/3e5195bb0be8812199e8f42d963cceea?pvs=204)
 
@@ -38,6 +38,8 @@ Na sala do host, **Gerar nova demanda** cria imediatamente um cartão pronto par
 ## Capacidade, responsáveis e exportação
 
 Um resumo da capacidade de **todas as pessoas** fica visível na sala durante toda a sessão, para host e participantes. O botão **Capacidade** abre os detalhes de todos, inclusive as histórias atribuídas. O host configura o nome do projeto e da sprint, e associa um **Dev** e um **QA** a cada história. As opções exibem as pessoas que entraram com a perspectiva correspondente. A associação pode ser alterada ou removida apenas pelo host. Participantes consultam os dados da equipe, sem controles de edição.
+
+O resumo no topo da sala é clicável. Ele mostra pontos usados e restantes de cada participante e abre um painel com a capacidade detalhada, histórias pontuadas vinculadas a cada pessoa e histórias ainda aguardando pontuação.
 
 A referência é sempre **8 pontos por participante**. A mediana válida e revelada de uma história soma integralmente à capacidade do Dev e à do QA atribuídos. Votos ainda fechados, histórias sem votos, com divergência crítica ou com carta 13/21 pendente de discussão não somam pontos. Atribuições acima de 8 são permitidas e geram um alerta para a pessoa afetada na sala e no painel, além de sinalização para o host.
 
@@ -95,6 +97,7 @@ O servidor valida permissões para cada ação e remove votos de outras pessoas 
 
 ## Histórico
 
+- **v0.6.1:** resumo de capacidade clicável, com painel visual de pontos restantes, histórias pontuadas e histórias abertas.
 - **v0.6.0:** decisão explícita do host após revelação, seção Histórias pontuadas, responsáveis por história confirmada e reabertura controlada de votação.
 - **v0.5.4:** modal reduzido à pergunta estática de confirmação, sem o box visual da carta.
 - **v0.5.3:** modal de voto simplificado com mensagem estática da carta e confirmação, sem pergunta aleatória para o time.
