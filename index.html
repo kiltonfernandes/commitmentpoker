@@ -20,7 +20,7 @@
 <body>
 <header class="top"><div class="shell"><a class="brand" href="#" id="logo">Commitment<span>Poker</span></a></div></header>
 <main class="shell">
-<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.5.1</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
+<section class="screen active home" id="home"><div class="eyebrow">Planning Poker por compromisso <span class="version">v0.5.2</span></div><h1>Comece uma sessão com o seu time.</h1><p>Crie uma sala, compartilhe o código e transforme os itens da planning em cartões prontos para votação.</p><section class="home-hand" aria-labelledby="handTitle">
   <h2 id="handTitle">Conheça a mensagem de cada carta</h2>
   <p>Passe o mouse pela mão ou selecione uma carta.</p>
   <div class="card-hand" aria-label="Cartas de compromisso">
@@ -43,7 +43,7 @@
 <section class="screen" id="room"><div class="room-head"><div><div class="eyebrow" id="roleLabel">Sessão do host</div><h1>Itens da planning</h1><p id="welcome">Organize os itens que o grupo irá votar.</p><p id="connectionStatus" role="status" aria-live="polite">Conectando...</p><p id="sessionContext"></p><p id="capacityNotice" role="status"></p><div id="capacityOverview" class="capacity-overview" aria-label="Capacidade da equipe"></div></div><div class="session-chip"><small>Código da sessão</small><b id="roomCode">—</b><button class="copy" id="copyRoomCode">Copy to clipboard</button><button class="mock-add" id="addMockParticipant" type="button">Add mock participant</button><div class="persona-controls" id="personaControls"><label for="personaSwitch">Alternar visão</label><select id="personaSwitch" aria-label="Alternar visão da sessão"></select></div><button class="mock-add" id="openCapacity" type="button">Capacidade</button><button class="mock-add" id="exportSession" type="button">Exportar DOCX</button><button class="delete-session" id="deleteSession">Delete session</button></div></div><div class="workspace"><aside class="add-panel" id="addPanel"><h2>Adicionar itens</h2><p>Cole ou digite um item por linha. Cada linha se torna um cartão disponível para votação.</p><label for="itemsInput" style="margin-top:20px">Itens da sessão</label><textarea id="itemsInput" placeholder="Como tutor, quero reservar uma carona para meu pet...&#10;Como motorista, quero informar vagas disponíveis..."></textarea><button class="primary" id="addItems">Create cards</button><button class="generate-demand" id="generateDemand" type="button">Gerar nova demanda</button><p class="generate-hint">Cria um cartão fictício de car sharing para pets.</p><div class="item-count" id="itemCount">Nenhum cartão criado.</div></aside><section class="board"><div class="board-title"><h2>Cartões para votação</h2><span class="board-intro">Selecione uma carta para votar.</span></div><div class="cards" id="cards"><div class="empty">Os cartões criados aparecerão aqui.</div></div><div class="note">Antes de registrar uma carta, a plataforma faz uma pergunta de compromisso. Votos 13 e 21 passam por verificações obrigatórias.</div></section></div></section>
 </main>
 <div class="modal-wrap" id="capacityWrap" aria-hidden="true"><section class="modal capacity-modal" role="dialog" aria-modal="true" aria-labelledby="capacityTitle"><button class="close" id="closeCapacity" aria-label="Fechar">×</button><h2 id="capacityTitle">Capacidade da sprint</h2><div id="capacityContent"></div></section></div>
-<div class="modal-wrap" id="modalWrap" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close" id="closeModal" aria-label="Fechar">×</button><h2 id="modalTitle">Confirmar compromisso</h2><p id="modalItem"></p><div class="commitment"><b>Carta <span id="modalValue">—</span></b><p id="modalMessage"></p></div><div class="commitment"><b>Pergunta para o time</b><p id="voteQuestion"></p></div><p id="confirmStatement" style="margin:0;color:var(--ink);font-weight:750"></p><div class="special" id="for13"><h3>Verificação obrigatória para 13</h3><label class="check"><input type="checkbox" id="fullSprint">Existe dedicação integral de uma pessoa durante a sprint.</label><label class="check"><input type="checkbox" id="otherTeam">Existe trabalho necessário de outro time para concluir a história.</label></div><div class="special" id="for21"><h3>Verificação obrigatória para 21</h3><label class="check"><input type="checkbox" id="discussed21">O grupo discutiu a inviabilidade da sprint e o que precisaria mudar para voltar a estimar a história.</label></div><div class="error" id="voteError"></div><button class="text-button" id="skipVote" style="margin-top:20px">Quero rever a carta</button><button class="primary" id="confirmVote" style="margin-left:14px">Sim, é isso mesmo</button></section></div>
+<div class="modal-wrap" id="modalWrap" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close" id="closeModal" aria-label="Fechar">×</button><h2 id="modalTitle">Confirmar compromisso</h2><p id="modalItem"></p><div class="commitment"><b>Carta <span id="modalValue">—</span></b><p id="modalMessage"></p></div><p id="confirmStatement" style="margin:0;color:var(--ink);font-weight:750"></p><div class="special" id="for13"><h3>Verificação obrigatória para 13</h3><label class="check"><input type="checkbox" id="fullSprint">Existe dedicação integral de uma pessoa durante a sprint.</label><label class="check"><input type="checkbox" id="otherTeam">Existe trabalho necessário de outro time para concluir a história.</label></div><div class="special" id="for21"><h3>Verificação obrigatória para 21</h3><label class="check"><input type="checkbox" id="discussed21">O grupo discutiu a inviabilidade da sprint e o que precisaria mudar para voltar a estimar a história.</label></div><div class="error" id="voteError"></div><button class="text-button" id="skipVote" style="margin-top:20px">Quero rever a carta</button><button class="primary" id="confirmVote" style="margin-left:14px">Sim, é isso mesmo</button></section></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script>
 
@@ -258,8 +258,8 @@ function openVote(itemId, value) {
   el('modalValue').textContent = value;
   el('modalMessage').textContent = messages[value];
   el('confirmStatement').textContent = 'Você está dizendo: “' + messages[value].replace(/\.$/, '') + '”. É isso mesmo?';
-  el('voteQuestion').textContent = nextQuestion(value);
   el('modalItem').textContent = item.text;
+  showToast('Carta ' + value + ': ' + messages[value]);
   const old = item.votes?.[app.name];
   el('fullSprint').checked = !!old?.fullSprint;
   el('otherTeam').checked = !!old?.otherTeam;
@@ -269,6 +269,13 @@ function openVote(itemId, value) {
   el('voteError').textContent = '';
   el('modalWrap').classList.add('open');
   el('modalWrap').setAttribute('aria-hidden', 'false');
+}
+function showToast(message) {
+  const toast = el('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove('show'), 5200);
 }
 function closeModal() { el('modalWrap').classList.remove('open'); el('modalWrap').setAttribute('aria-hidden', 'true'); app.pending = null; }
 function updateCapacityNotice() {
