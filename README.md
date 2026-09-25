@@ -229,3 +229,16 @@ A tela inicial inclui o acesso discreto **Ver uma demonstração da metodologia*
 A página está pronta para publicação como site estático na Vercel. O fluxo de telas, os cartões, a confirmação de voto e a aplicação das regras funcionam no navegador.
 
 A conexão de uma mesma sessão entre dispositivos ainda pede uma fonte de dados compartilhada. Uma implementação posterior pode usar Vercel KV, Postgres, Supabase ou outro serviço de persistência, com uma rota para criar sessões, outra para entrar e uma atualização em tempo real dos cartões e votos. As regras de validação já estão organizadas no navegador e podem ser movidas para essa camada de servidor para manter o mesmo comportamento para todo o time.
+
+
+## Versão atual
+
+**v0.1.0 — MVP testável**
+
+Esta versão reúne os fluxos iniciais de host e participante, cartões por linha, perguntas rotativas de compromisso, voto opcional, privacidade antes da revelação, mediana, divergência crítica, demonstração guiada e persistência local no navegador.
+
+O versionamento segue esta regra:
+
+- 0.x.0: novo conjunto relevante de funcionalidades durante a fase inicial.
+- 0.0.x: correção ou ajuste pequeno.
+- x.0.0: mudança incompatível depois que o produto estiver estável.
