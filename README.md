@@ -2,7 +2,7 @@
 
 Aplicação de Planning Poker por compromisso e mediana. O host cria uma sessão, compartilha um código de seis caracteres e inclui histórias, uma por linha. Pessoas em outros navegadores entram com nome e código, votam, pulam um cartão ou reveem a carta antes de confirmar. A sessão fica no Upstash Redis sem prazo de expiração configurado, até o host excluí-la.
 
-**Versão: v0.3.2**
+**Versão: v0.4.0**
 
 [Abrir a aplicação](https://commitmentpoker.vercel.app/) · [Ler a metodologia original](https://app.notion.com/p/3e5195bb0be8812199e8f42d963cceea?pvs=204)
 
@@ -28,6 +28,12 @@ Ao escolher uma carta, a pessoa vê a mensagem correspondente e uma pergunta de 
 - Se votos regulares extremos estiverem separados por duas ou mais posições em `1, 2, 3, 5, 8`, a rodada é interrompida e revelada automaticamente para que a história e as mensagens dos extremos sejam discutidas. O host pode iniciar outra rodada.
 - Sem divergência crítica, a mediana é a carta central da lista ordenada; com quantidade par, é usada a carta central superior. Os votos 13 e 21 exigem discussão específica antes do fechamento.
 - O host pode adicionar ou remover cartões e excluir a sessão inteira. A exclusão remove os dados compartilhados do Redis.
+
+## Testar sozinho com demandas e participantes mock
+
+Na sala do host, **Gerar nova demanda** cria imediatamente um cartão pronto para votação. O catálogo local contém 36 histórias fictícias de um aplicativo de car sharing para pets e evita repetições dentro da mesma sessão. É possível continuar escrevendo demandas próprias, uma por linha.
+
+**Add mock participant** cria na sessão um participante de teste chamado `Tutor de pet (mock) 1`, depois `2`, `3` e assim por diante. Ao criar, a tela passa para a visão desse participante. O seletor **Alternar visão** permite voltar ao host ou assumir qualquer participante mock criado naquele navegador. Cada mock vota, pula e vê resultados com as mesmas permissões de um participante comum; o host pode revelar as cartas. Os mocks são membros da sessão compartilhada e seus votos aparecem aos demais após a revelação. A identidade de cada um fica salva no navegador em que foi criada. A sessão aceita até 1000 membros por limite técnico.
 
 ## Estrutura
 
@@ -73,6 +79,7 @@ O servidor valida permissões para cada ação e remove votos de outras pessoas 
 
 ## Histórico
 
+- **v0.4.0:** geração de demandas fictícias sobre car sharing para pets e participantes mock controláveis pelo host.
 - **v0.3.2:** a área de votação do participante usa a largura disponível em telas grandes.
 - **v0.3.1:** exibição da mediana também quando uma rodada com um único voto é revelada.
 - **v0.3.0:** sessões compartilhadas com Redis e função Vercel, tokens por participante, atualizações periódicas e testes automatizados.

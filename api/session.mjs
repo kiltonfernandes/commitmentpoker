@@ -98,7 +98,7 @@ export default async function handler(req, res) {
       const token = secret(), id = uid();
       const { data } = await update(key, state => {
         if (state.members.some(m => m.name.toLocaleLowerCase('pt-BR') === name.toLocaleLowerCase('pt-BR'))) fail('Este nome já está em uso na sessão. Informe outro nome.', 409);
-        if (state.members.length >= 60) fail('Esta sessão atingiu o limite de participantes.', 409);
+        if (state.members.length >= 1000) fail('Esta sessão atingiu o limite técnico de participantes.', 409);
         state.members.push({ id, name, discipline, role: 'participant', token });
       });
       return res.status(200).json({ token, session: view(data, memberFor(data, token)) });
