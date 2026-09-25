@@ -87,7 +87,7 @@ function view(data, member) {
     code: data.code, role: member.role, name: member.name, discipline: member.discipline,
     projectName: data.projectName || '', sprintName: data.sprintName || '',
     capacity: capacityFor(data, member),
-    members: data.members.map(m => capacityFor(data, m)),
+    members: data.members.filter(m => m.role === 'participant').map(m => capacityFor(data, m)),
     items: data.items.map(item => {
       const visible = member.role === 'host' || item.revealed;
       const votes = {};
@@ -159,7 +159,7 @@ export default async function handler(req, res) {
           if (!['devId', 'qaId'].includes(body.slot)) fail('Função inválida.');
           const selected = body.memberId ? state.members.find(m => m.id === body.memberId) : null;
           const required = body.slot === 'devId' ? 'Dev' : 'QA';
-          if (body.memberId && (!selected || selected.discipline !== required)) fail('Escolha uma pessoa com perspectiva ' + required + '.');
+          if (body.memberId && (!selected || selected.role !== 'participant' || selected.discipline !== required)) fail('Escolha um participante com perspectiva ' + required + '.');
           item.assignment ||= { devId: null, qaId: null };
           item.assignment[body.slot] = selected?.id || null;
         }
@@ -172,10 +172,12 @@ export default async function handler(req, res) {
           item.votes = {}; item.revealed = false; item.locked = false; item.revealedAt = null; item.startedAt = new Date().toISOString();
         }
         else if (action === 'skip') {
+          if (member.role !== 'participant') fail('O host conduz a sessão e não participa da votação.', 403);
           if (item.locked || item.revealed) fail('Esta rodada já foi encerrada.', 409);
           item.votes[member.id] = { value: null, skipped: true, discipline: member.discipline, votedAt: new Date().toISOString() };
         }
         else if (action === 'vote') {
+          if (member.role !== 'participant') fail('O host conduz a sessão e não participa da votação.', 403);
           if (item.locked || item.revealed) fail('Esta rodada já foi encerrada.', 409);
           const value = Number(body.value);
           if (!values.includes(value)) fail('Carta inválida.');

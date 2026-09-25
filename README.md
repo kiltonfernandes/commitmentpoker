@@ -2,7 +2,7 @@
 
 Aplicação de Planning Poker por compromisso e mediana. O host cria uma sessão, compartilha um código de seis caracteres e inclui histórias, uma por linha. Pessoas em outros navegadores entram com nome e código, votam, pulam um cartão ou reveem a carta antes de confirmar. A sessão fica no Upstash Redis sem prazo de expiração configurado, até o host excluí-la.
 
-**Versão: v0.5.0**
+**Versão: v0.5.1**
 
 [Abrir a aplicação](https://commitmentpoker.vercel.app/) · [Ler a metodologia original](https://app.notion.com/p/3e5195bb0be8812199e8f42d963cceea?pvs=204)
 
@@ -44,6 +44,8 @@ A referência é sempre **8 pontos por participante**. A mediana válida e revel
 O botão **Exportar DOCX**, visível ao host, cria um relatório Word com projeto, sprint, código, datas, participantes, perspectivas, capacidade individual, histórias, responsáveis, decisão, pontuação, votos por participante e verificações das cartas 13 e 21. O arquivo inclui rodadas atuais e anteriores preservadas a partir desta versão. O fuso das datas exportadas é o de Brasília. O relatório não inclui tokens de acesso. Discussões verbais não são registradas; cartões removidos e rodadas encerradas antes desta versão não podem ser reconstruídos.
 
 A página inicial mantém a mão de cartas interativa. O botão de demonstração foi removido.
+
+Ao abrir o endereço, a aplicação começa na página inicial. Sessões salvas ficam disponíveis em uma lista para retomada manual. Na sala, participantes votam usando uma mão visual de cartas em cada história; o host apenas conduz a rodada e revela os votos.
 
 ## Estrutura
 
@@ -91,6 +93,7 @@ O servidor valida permissões para cada ação e remove votos de outras pessoas 
 
 ## Histórico
 
+- **v0.5.1:** home como tela inicial, retomada manual de sessões salvas, mocks com nomes brasileiros determinísticos, mão de cartas para participantes, host sem voto e correção do modal de confirmação.
 - **v0.5.0:** painel de capacidade com Dev e QA por história, alertas acima de 8, projeto e sprint, exportação DOCX e retirada da demonstração inicial.
 - **v0.4.0:** geração de demandas fictícias sobre car sharing para pets e participantes mock controláveis pelo host.
 - **v0.3.2:** a área de votação do participante usa a largura disponível em telas grandes.
